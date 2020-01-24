@@ -4,39 +4,43 @@ import SmurfData from './SmurfData';
 import {connect} from 'react-redux';
 
 
-export const SmurfList = props => {
-    console.log(props.smurf)
-    const [findSmurf] = useState(false)
-        console.log(findSmurf)
+const SmurfList = props => {
+    console.log('SmurfList')
+    // console.log(props.smurf)
+    // const [findSmurf] = useState(false)
+    //     console.log(findSmurf)
 
     useEffect(() => {
+        console.log('getSmurf');
         props.getSmurf();
-        console.log(props);
-    }, [findSmurf]);
-    useEffect(() => {
-        props.getSmurf();
-    }, [findSmurf])
-    if(!props.smurf) {
-        return (
-            <h4>Finding Smurfs...</h4>
-        ) 
-    } else {
-        console.log(props.smurfs);
+    }, []);
+    // useEffect(() => {
+    //     props.getSmurf();
+    // }, [findSmurf])
 
-        return (
-                <div>
-                    {props.smurfs.map(smurf => (
-                        <div>
-                            <SmurfData key={smurf.id}
-                                name= {smurf.name}
-                                age={smurf.age}
-                                height={smurf.height} >
-                            </SmurfData>
-                        </div>
-                    ))}
+    return (
+        <>{
+            !props.smurfs ? (
+                <h4>Finding Smurfs...</h4>
+            ) : (
+                <div>{
+                    props.smurfs.map(
+                        smurf => (
+                            <div>
+                                <SmurfData key={smurf.id}
+                                    name= {smurf.name}
+                                    age={smurf.age}
+                                    height={smurf.height} >
+                                </SmurfData>
+                            </div> 
+                        )
+                    )
+                }
                 </div>
-        )
-    }
+            )
+        }  
+        </>
+    )
 };
 
 const mapStateToProps = state => {
@@ -44,7 +48,6 @@ const mapStateToProps = state => {
     return {
         ...state,
         smurfs: state.smurfs,
-        isFetching: state.isFetching,
         error: state.error
     };
 };
@@ -55,4 +58,4 @@ const mapDispatchToProps = {
 
 export default connect(
     mapStateToProps, 
-    mapDispatchToProps)(SmurfData);
+    mapDispatchToProps)(SmurfList);
